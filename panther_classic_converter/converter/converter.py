@@ -6,6 +6,7 @@
 # falls under the Panther Commercial License to the extent it is permitted.
 
 import ast
+import os
 import yaml
 import black
 
@@ -16,10 +17,12 @@ from .name_fixer import fix_names
 
 
 def convert_detection(yml_filename, is_athena: bool) -> str:
+
     with open(yml_filename, "r") as file:
         y = yaml.safe_load(file)
     if 'Filename' in y:
-        with open(y['Filename'], "r") as file:
+        py_path = os.path.join(os.path.dirname(yml_filename), y['Filename'])
+        with open(py_path, "r") as file:
             tree = ast.parse(file.read())
     else:
         tree = empty_tree()
@@ -29,6 +32,7 @@ def convert_detection(yml_filename, is_athena: bool) -> str:
     name_changes = fix_names(tree, get_id(y))
     append_detection(tree, y, name_changes, is_athena)
     unparsed = ast.unparse(tree)
+    unparsed = prepend_nolint(unparsed)
     # make pretty
     return black.format_str(unparsed, mode=black.FileMode())
 
@@ -49,3 +53,7 @@ def empty_tree() -> ast.AST:
             type_ignores=[]
         )
     )
+
+
+def prepend_nolint(body: str) -> str:
+    return f'#nolint\n{body}'
