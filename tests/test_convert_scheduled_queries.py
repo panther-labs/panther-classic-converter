@@ -20,6 +20,5 @@ class TestConvertRules(TestCase):
         legacy_path = f'{dir_path}/testdata/vpc_dns_tunneling_query.yml'
         converted_path = f'{dir_path}/testdata/vpc_dns_tunneling_query_converted_athena.py'
         result = convert_detection(legacy_path, is_athena=True)
-        print(result)
         with open(converted_path, "r") as converted:
             self.assertEqual(result, converted.read())
