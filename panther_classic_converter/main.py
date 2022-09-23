@@ -15,11 +15,20 @@ def main():
     parser.add_argument('-f', '--filename', help="YML filename to be converted", required=True)
     parser.add_argument('-a', '--athena', help="Datalake used by panther deployment.  Used for scheduled queries.",
                         required=False, action=argparse.BooleanOptionalAction)
+    parser.add_argument('-o', '--output', help="YML filename to be converted", required=False)
 
     args = vars(parser.parse_args())
 
-    result = convert_detection(args['filename'], args['athena'])
-    print(result)
+    input_filename = args['filename']
+    result = convert_detection(input_filename, args['athena'])
+
+    output_filename = args.get('output', default_output_filename(input_filename))
+    with open(output_filename, 'w') as output_file:
+        output_file.write(result)
+
+
+def default_output_filename(og_filename: str) -> str:
+    return f'converted_{og_filename}'
 
 
 if __name__ == "__main__":
