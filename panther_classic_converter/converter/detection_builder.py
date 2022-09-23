@@ -190,7 +190,7 @@ class DetectionBuilder:
         )
 
     def _name_keyword(self) -> ast.keyword:
-        if self._yaml_result['AnalysisType'] == 'scheduled_query':
+        if self._detection_type == 'scheduled_query':
             name = self._yaml_result.get('QueryName', "")
         else:
             name = self._yaml_result.get('DisplayName', "")
@@ -237,6 +237,10 @@ class DetectionBuilder:
         )
 
     def _unit_tests_keyword(self) -> ast.keyword:
+        if self._detection_type == 'policy':
+            data_key = 'Resource'
+        else:
+            data_key = 'Log'
         calls = []
         for unit_test in self._yaml_result.get("Tests", []):
             mock_calls = []
@@ -272,7 +276,7 @@ class DetectionBuilder:
                 keywords=[
                     ast.keyword(
                         arg='data',
-                        value=ast.Constant(value=json.dumps(unit_test.get('Log', '')))
+                        value=ast.Constant(value=json.dumps(unit_test.get(data_key, '')))
                     ),
                     ast.keyword(
                         arg='name',

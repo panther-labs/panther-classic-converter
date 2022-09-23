@@ -27,13 +27,13 @@ detection.Policy(
     enabled=True,
     unit_tests=[
         detection.JSONUnitTest(
-            data='""',
+            data='{"CreationDate": "2019-01-01T00:00:00Z", "EncryptionRules": [{"ApplyServerSideEncryptionByDefault": {"KMSMasterKeyID": null, "SSEAlgorithm": "AES256"}}], "Grants": null, "LifecycleRules": null, "Location": "us-east-2", "LoggingPolicy": null, "MFADelete": null, "Name": "bucket-name", "Owner": {"DisplayName": "user.name", "ID": "11112223334445556667778899aaabbbcccdddeeee"}, "Policy": "{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Allow\\",\\"Principal\\":{\\"AWS\\":\\"arn:aws:iam::123456789012:root\\"},\\"Action\\":[\\"s3:ListBucket\\",\\"s3:PutObject\\"],\\"Resource\\":[\\"arn:aws:s3:::panther-internal-test/*\\",\\"arn:aws:s3:::panther-internal-test\\"]},{\\"Effect\\":\\"Allow\\",\\"Principal\\":\\"*\\",\\"Action\\":[\\"s3:Get*\\",\\"s3:List*\\"],\\"Resource\\":[\\"arn:aws:s3:::test-bucket/*\\",\\"arn:aws:s3:::test-bucket\\"]}]}", "PublicAccessBlockConfiguration": {"BlockPublicAcls": false, "BlockPublicPolicy": false, "IgnorePublicAcls": false, "RestrictPublicBuckets": false}, "Versioning": null}',
             name="Bucket Uses Allow With Principal",
             expect_match=True,
             mocks=[],
         ),
         detection.JSONUnitTest(
-            data='""',
+            data='{"CreationDate": "2019-01-01T00:00:00Z", "EncryptionRules": [{"ApplyServerSideEncryptionByDefault": {"KMSMasterKeyID": null, "SSEAlgorithm": "AES256"}}], "Grants": null, "LifecycleRules": null, "Location": "us-east-2", "LoggingPolicy": null, "MFADelete": null, "Name": "bucket-name", "Owner": {"DisplayName": "user.name", "ID": "11112223334445556667778899aaabbbcccdddeeee"}, "Policy": "{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Allow\\",\\"NotPrincipal\\":{\\"AWS\\":\\"arn:aws:iam::123456789012:root\\"},\\"Action\\":[\\"s3:ListBucket\\",\\"s3:PutObject\\"],\\"Resource\\":[\\"arn:aws:s3:::panther-internal-test/*\\",\\"arn:aws:s3:::panther-internal-test\\"]},{\\"Effect\\":\\"Allow\\",\\"Principal\\":\\"*\\",\\"Action\\":[\\"s3:Get*\\",\\"s3:List*\\"],\\"Resource\\":[\\"arn:aws:s3:::test-bucket/*\\",\\"arn:aws:s3:::test-bucket\\"]}]}", "PublicAccessBlockConfiguration": {"BlockPublicAcls": false, "BlockPublicPolicy": false, "IgnorePublicAcls": false, "RestrictPublicBuckets": false}, "Versioning": null}',
             name="Bucket Uses Allow With Not Principal",
             expect_match=False,
             mocks=[],
