@@ -16,7 +16,7 @@ from .linter_fixer import fix_type_hints
 from .name_fixer import fix_names
 
 
-def convert_detection(yml_filename, is_athena: bool) -> str:
+def convert_detection(yml_filename: str, is_athena: bool) -> str:
 
     with open(yml_filename, "r") as file:
         y = yaml.safe_load(file)
@@ -37,7 +37,7 @@ def convert_detection(yml_filename, is_athena: bool) -> str:
     return black.format_str(unparsed, mode=black.FileMode())
 
 
-def get_id(yaml_config) -> str:
+def get_id(yaml_config: dict) -> str:
     analysis_type = yaml_config['AnalysisType']
     if analysis_type == 'rule' or analysis_type == 'scheduled_rule':
         return yaml_config['RuleID']
@@ -46,7 +46,7 @@ def get_id(yaml_config) -> str:
     return ''
 
 
-def empty_tree() -> ast.AST:
+def empty_tree() -> ast.Module:
     return ast.fix_missing_locations(
         ast.Module(
             body=[],

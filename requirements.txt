@@ -13,3 +13,6 @@ pathspec==0.10.1; python_version >= '3.7'
 platformdirs==2.5.2; python_version >= '3.7'
 tomli==2.0.1; python_full_version < '3.11.0a7'
 typing-extensions==4.3.0; python_version < '3.10'
+
+setuptools~=57.0.0
+PyYAML~=5.4.1

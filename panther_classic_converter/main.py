@@ -10,7 +10,7 @@ import argparse
 from converter.converter import convert_detection
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="converts legacy detections to config sdk detections")
     parser.add_argument('-f', '--filename', help="YML filename to be converted", required=True)
     parser.add_argument('-a', '--athena', help="Datalake used by panther deployment.  Used for scheduled queries.",

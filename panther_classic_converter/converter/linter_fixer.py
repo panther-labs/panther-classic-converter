@@ -8,13 +8,13 @@
 import ast
 
 
-def fix_type_hints(tree: ast.AST):
+def fix_type_hints(tree: ast.AST) -> None:
     type_hint_fixer = TypeHintFixer()
     type_hint_fixer.visit(tree)
 
 
 class TypeHintFixer(ast.NodeTransformer):
-    def visit_FunctionDef(self, node: ast.FunctionDef):
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> ast.AST:
         if node.name == "rule" or node.name == "policy":
             node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
             node.returns = ast.Name(id='bool', ctx=ast.Load())

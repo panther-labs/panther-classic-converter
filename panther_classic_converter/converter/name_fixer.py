@@ -7,21 +7,22 @@
 
 import ast
 import re
+from typing import Optional
 
 
 class UpdatedFunctionNames(object):
-    detection_func_name = None
-    title_func_name = None
-    dedup_func_name = None
-    alert_context_func_name = None
-    severity_func_name = None
-    description_func_name = None
-    reference_func_name = None
-    runbook_func_name = None
-    destinations_func_name = None
+    detection_func_name: Optional[str] = None
+    title_func_name: Optional[str] = None
+    dedup_func_name: Optional[str] = None
+    alert_context_func_name: Optional[str] = None
+    severity_func_name: Optional[str] = None
+    description_func_name: Optional[str] = None
+    reference_func_name: Optional[str] = None
+    runbook_func_name: Optional[str] = None
+    destinations_func_name: Optional[str] = None
 
 
-def fix_names(tree: ast.AST, detection_id) -> UpdatedFunctionNames:
+def fix_names(tree: ast.AST, detection_id: str) -> UpdatedFunctionNames:
     name_fixer = NameFixer(detection_id)
     name_fixer.visit(tree)
     return name_fixer.get_updated_function_names()
@@ -41,7 +42,7 @@ class NameFixer(ast.NodeTransformer):
     def _id_to_prefix(self, id: str) -> str:
         return re.sub('[^a-zA-Z0-9]', '_', id).lower()
 
-    def visit_FunctionDef(self, node: ast.FunctionDef):
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> ast.AST:
         if node.name == "rule" or node.name == "policy":
             new_name = self._prefix_name(node.name)
             node.name = new_name

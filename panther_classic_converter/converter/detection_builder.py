@@ -7,13 +7,14 @@
 
 import ast
 import json
+from typing import Union, Any, Optional
 
 from panther_config import detection
 
 from .name_fixer import UpdatedFunctionNames
 
 
-def append_detection(tree: ast.AST, yaml_config, names: UpdatedFunctionNames, is_athena: bool):
+def append_detection(tree: ast.Module, yaml_config: dict, names: UpdatedFunctionNames, is_athena: bool) -> None:
     detections_builder = DetectionBuilder(
         yaml_config=yaml_config,
         names=names,
@@ -23,7 +24,7 @@ def append_detection(tree: ast.AST, yaml_config, names: UpdatedFunctionNames, is
 
 
 class DetectionBuilder:
-    def __init__(self, yaml_config, names: UpdatedFunctionNames, is_athena: str):
+    def __init__(self, yaml_config: dict, names: UpdatedFunctionNames, is_athena: bool) -> None:
         self._yaml_result = yaml_config
         self._names = names
         self._detection_type = self._yaml_result['AnalysisType']
@@ -173,6 +174,7 @@ class DetectionBuilder:
 
     def _severity_keyword(self) -> ast.keyword:
         severity = severity_to_enum(self._yaml_result.get("Severity", ""))
+        value: Any
         if self._names.severity_func_name is not None:
             value = self._dynamic_string_call_value(self._names.severity_func_name, severity)
         else:
@@ -227,6 +229,7 @@ class DetectionBuilder:
 
     def _log_types_keyword(self) -> ast.keyword:
         log_types = self._yaml_result['LogTypes']
+        val: Any
         if isinstance(log_types, str):
             val = ast.Constant(value=log_types)
         else:
@@ -313,6 +316,7 @@ class DetectionBuilder:
 
     def _reference_keyword(self) -> ast.keyword:
         reference = self._yaml_result.get("Reference", "")
+        value: Any
         if self._names.reference_func_name is not None:
             value = self._dynamic_string_call_value(self._names.reference_func_name, reference)
         else:
@@ -324,6 +328,7 @@ class DetectionBuilder:
 
     def _runbook_keyword(self) -> ast.keyword:
         runbook = self._yaml_result.get("Runbook", "")
+        value: Any
         if self._names.runbook_func_name is not None:
             value = self._dynamic_string_call_value(self._names.runbook_func_name, runbook)
         else:
@@ -335,6 +340,7 @@ class DetectionBuilder:
 
     def _description_keyword(self) -> ast.keyword:
         description = self._yaml_result.get("Description", "")
+        value: Any
         if self._names.description_func_name is not None:
             value = self._dynamic_string_call_value(self._names.description_func_name, description)
         else:
@@ -368,6 +374,7 @@ class DetectionBuilder:
         )
 
     def _alert_title_keyword(self) -> ast.keyword:
+        val: Any
         if self._names.title_func_name is not None:
             val = ast.Name(id=self._names.title_func_name, ctx=ast.Load())
         else:
@@ -378,6 +385,7 @@ class DetectionBuilder:
         )
 
     def _alert_context_keyword(self) -> ast.keyword:
+        val: Any
         if self._names.alert_context_func_name is not None:
             val = ast.Name(id=self._names.alert_context_func_name, ctx=ast.Load())
         else:
@@ -389,6 +397,7 @@ class DetectionBuilder:
 
     def _destinations_keyword(self) -> ast.keyword:
         destinations = self._yaml_result.get("Destinations", None)
+        val: Any
         if self._names.destinations_func_name is not None:
             val = self._dynamic_destinations_call_value(self._names.destinations_func_name, destinations)
         else:
@@ -411,6 +420,7 @@ class DetectionBuilder:
 
     def _resource_types_keyword(self) -> ast.keyword:
         resource_types = self._yaml_result['ResourceTypes']
+        val: Any
         if isinstance(resource_types, str):
             val = ast.Constant(value=resource_types)
         else:
@@ -422,6 +432,7 @@ class DetectionBuilder:
 
     def _ignore_patterns_keyword(self) -> ast.keyword:
         suppressions = self._yaml_result.get('Suppressions', None)
+        val: Any
         if suppressions is None or isinstance(suppressions, str):
             val = ast.Constant(value=suppressions)
         else:
@@ -466,7 +477,7 @@ class DetectionBuilder:
             value=val,
         )
 
-    def _dynamic_string_call_value(self, func_name, fallback) -> ast.Call:
+    def _dynamic_string_call_value(self, func_name: str, fallback: str) -> ast.Call:
         return ast.Call(
             func=ast.Attribute(
                 value=ast.Name(id='detection', ctx=ast.Load()),
@@ -486,7 +497,7 @@ class DetectionBuilder:
             ],
         )
 
-    def _dynamic_destinations_call_value(self, func_name, fallback) -> ast.Call:
+    def _dynamic_destinations_call_value(self, func_name: str, fallback: str) -> ast.Call:
         return ast.Call(
             func=ast.Attribute(
                 value=ast.Name(id='detection', ctx=ast.Load()),
@@ -506,7 +517,7 @@ class DetectionBuilder:
             ],
         )
 
-    def _alert_grouping_call_value(self, period_minutes, group_by) -> ast.Call:
+    def _alert_grouping_call_value(self, period_minutes: int, group_by: Optional[str]) -> ast.Call:
         if group_by is None:
             group_by_keyword = ast.keyword(
                 arg='group_by',
@@ -533,7 +544,7 @@ class DetectionBuilder:
             ],
         )
 
-    def _cron_schedule_call_value(self, expression, timeout_minutes) -> ast.Call:
+    def _cron_schedule_call_value(self, expression: str, timeout_minutes: int) -> ast.Call:
         return ast.Call(
             func=ast.Attribute(
                 value=ast.Name(id='detection', ctx=ast.Load()),
@@ -553,7 +564,7 @@ class DetectionBuilder:
             ],
         )
 
-    def _interval_schedule_call_value(self, rate_minutes, timeout_minutes) -> ast.Call:
+    def _interval_schedule_call_value(self, rate_minutes: int, timeout_minutes: int) -> ast.Call:
         return ast.Call(
             func=ast.Attribute(
                 value=ast.Name(id='detection', ctx=ast.Load()),
@@ -573,7 +584,7 @@ class DetectionBuilder:
             ],
         )
 
-    def _string_list_value(self, string_list) -> ast.List:
+    def _string_list_value(self, string_list: list) -> ast.List:
         elts = []
         for s in string_list:
             elts.append(ast.Constant(
