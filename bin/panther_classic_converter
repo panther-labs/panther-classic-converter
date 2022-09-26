@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+from panther_classic_converter import main
+main.main()
+
