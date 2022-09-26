@@ -20,6 +20,7 @@ setup(
     install_requires=[
         'panther_config',
         'black',
+        'PyYAML',
     ],
     scripts=['bin/panther_classic_converter'],
     classifiers=[

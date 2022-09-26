@@ -7,7 +7,7 @@
 
 import argparse
 
-from converter.converter import convert_detection
+from panther_classic_converter.converter.converter import convert_detection
 
 
 def main() -> None:
