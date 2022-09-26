@@ -43,49 +43,33 @@ class NameFixer(ast.NodeTransformer):
         return re.sub('[^a-zA-Z0-9]', '_', id).lower()
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> ast.AST:
+        new_name = self._prefix_name(node.name)
+        node.name = new_name
         if node.name == "rule" or node.name == "policy":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.detection_func_name = new_name
 
         if node.name == "title":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.title_func_name = new_name
 
         if node.name == "dedup":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.dedup_func_name = new_name
 
         if node.name == "alert_context":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.alert_context_func_name = new_name
 
         if node.name == "severity":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.severity_func_name = new_name
 
         if node.name == "description":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.description_func_name = new_name
 
         if node.name == "reference":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.reference_func_name = new_name
 
         if node.name == "runbook":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.runbook_func_name = new_name
 
         if node.name == "destinations":
-            new_name = self._prefix_name(node.name)
-            node.name = new_name
             self._results.destinations_func_name = new_name
         return node
 

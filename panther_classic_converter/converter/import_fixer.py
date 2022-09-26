@@ -10,7 +10,7 @@ from typing import List, Optional
 
 
 def fix_imports(tree: ast.AST) -> None:
-    import_parser = ImportParser()
+    import_parser = ImportVisitor()
     import_parser.visit(tree)
     import_fixer = ImportFixer(import_parser.get_import_nodes())
     import_fixer.visit(tree)
@@ -42,7 +42,7 @@ class ImportFixer(ast.NodeTransformer):
         return node
 
 
-class ImportParser(ast.NodeVisitor):
+class ImportVisitor(ast.NodeVisitor):
     def __init__(self) -> None:
         self._import_nodes: List[ast.AST] = []
 
