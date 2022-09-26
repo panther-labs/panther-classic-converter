@@ -12,7 +12,7 @@ from panther_classic_converter.converter.converter import convert_detection
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="converts legacy detections to config sdk detections")
-    parser.add_argument('-f', '--filename', help="YML filename to be converted", required=True)
+    parser.add_argument('filename', type=str, help="YML filename to be converted")
     parser.add_argument('-a', '--athena', help="Datalake used by panther deployment.  Used for scheduled queries.",
                         required=False, action=argparse.BooleanOptionalAction)
     parser.add_argument('-o', '--output', help="YML filename to be converted", required=False)
@@ -31,7 +31,7 @@ def main() -> None:
 
 
 def default_output_filename(og_filename: str) -> str:
-    return f'converted_{og_filename}'
+    return f'converted_{og_filename.removesuffix(".yml")}.py'
 
 
 if __name__ == "__main__":
