@@ -19,33 +19,20 @@ class TypeHintFixer(ast.NodeTransformer):
             node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
             node.returns = ast.Name(id='bool', ctx=ast.Load())
 
-        if node.name == "title":
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
-            node.returns = ast.Name(id='str', ctx=ast.Load())
-
-        if node.name == "dedup":
+        if (
+                node.name == "title"
+                or node.name == "dedup"
+                or node.name == "severity"
+                or node.name == "description"
+                or node.name == "reference"
+                or node.name == "runbook"
+        ):
             node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
             node.returns = ast.Name(id='str', ctx=ast.Load())
 
         if node.name == "alert_context":
             node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
             node.returns = ast.Name(id='dict', ctx=ast.Load())
-
-        if node.name == "severity":
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
-            node.returns = ast.Name(id='str', ctx=ast.Load())
-
-        if node.name == "description":
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
-            node.returns = ast.Name(id='str', ctx=ast.Load())
-
-        if node.name == "reference":
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
-            node.returns = ast.Name(id='str', ctx=ast.Load())
-
-        if node.name == "runbook":
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
-            node.returns = ast.Name(id='str', ctx=ast.Load())
 
         if node.name == "destinations":
             node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
