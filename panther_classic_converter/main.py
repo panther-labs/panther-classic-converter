@@ -22,9 +22,12 @@ def main() -> None:
     input_filename = args['filename']
     result = convert_detection(input_filename, args['athena'])
 
-    output_filename = args.get('output', default_output_filename(input_filename))
+    output_filename = args.get('output', None)
+    if output_filename is None:
+        output_filename = default_output_filename(input_filename)
     with open(output_filename, 'w') as output_file:
         output_file.write(result)
+        print(f"wrote converted file to {output_filename}")
 
 
 def default_output_filename(og_filename: str) -> str:
