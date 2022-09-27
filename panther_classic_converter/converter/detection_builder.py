@@ -34,18 +34,16 @@ class DetectionBuilder:
         return ast.unparse(self.return_expr())
 
     def return_expr(self) -> ast.Expr:
-        if self._detection_type == 'rule':
-            val = self._rule_call()
-        elif self._detection_type == 'policy':
-            val = self._policy_call()
-        elif self._detection_type == 'scheduled_rule':
-            val = self._scheduled_rule_call()
-        elif self._detection_type == 'scheduled_query':
-            val =  self._scheduled_query_call()
-        else:
+        val_func = {
+            'rule': self._rule_call,
+            'policy': self._policy_call,
+            'scheduled_rule': self._scheduled_rule_call,
+            'scheduled_query': self._scheduled_query_call,
+        }.get(self._detection_type, None)
+        if val_func is None:
             raise Exception('unsupported analysis type')
         return ast.Expr(
-            value=val,
+            value=val_func(),
         )
 
     def _rule_call(self) -> ast.Call:
