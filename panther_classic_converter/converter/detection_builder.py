@@ -34,15 +34,13 @@ class DetectionBuilder:
         return ast.unparse(self.return_expr())
 
     def return_expr(self) -> ast.Expr:
-        if self._detection_type == 'rule':
-            val = self._rule_call()
-        elif self._detection_type == 'policy':
-            val = self._policy_call()
-        elif self._detection_type == 'scheduled_rule':
-            val = self._scheduled_rule_call()
-        elif self._detection_type == 'scheduled_query':
-            val =  self._scheduled_query_call()
-        else:
+        val = {
+            self._rule_call(): 'rule',
+            self._policy_call(): 'policy',
+            self._scheduled_rule_call(): 'scheduled_rule',
+            self._scheduled_query_call(): 'scheduled_query',
+        }.get(self._detection_type, None)
+        if val is None:
             raise Exception('unsupported analysis type')
         return ast.Expr(
             value=val,
@@ -597,13 +595,10 @@ class DetectionBuilder:
 
 
 def severity_to_enum(severity: str) -> str:
-    if severity.lower() == "low":
-        return detection.SeverityLow
-    elif severity.lower() == "medium":
-        return detection.SeverityMedium
-    elif severity.lower() == "high":
-        return detection.SeverityHigh
-    elif severity.lower() == "critical":
-        return detection.SeverityCritical
-    else:
-        return detection.SeverityInfo
+    return {
+        detection.SeverityInfo: "info",
+        detection.SeverityLow: "low",
+        detection.SeverityMedium: "medium",
+        detection.SeverityHigh: "high",
+        detection.SeverityCritical: "critical",
+    }.get(severity.lower(), detection.SeverityInfo)
