@@ -35,10 +35,10 @@ class DetectionBuilder:
 
     def return_expr(self) -> ast.Expr:
         val = {
-            self._rule_call(): 'rule',
-            self._policy_call(): 'policy',
-            self._scheduled_rule_call(): 'scheduled_rule',
-            self._scheduled_query_call(): 'scheduled_query',
+            'rule': self._rule_call(),
+            'policy': self._policy_call(),
+            'scheduled_rule': self._scheduled_rule_call(),
+            'scheduled_query': self._scheduled_query_call(),
         }.get(self._detection_type, None)
         if val is None:
             raise Exception('unsupported analysis type')
@@ -596,9 +596,9 @@ class DetectionBuilder:
 
 def severity_to_enum(severity: str) -> str:
     return {
-        detection.SeverityInfo: "info",
-        detection.SeverityLow: "low",
-        detection.SeverityMedium: "medium",
-        detection.SeverityHigh: "high",
-        detection.SeverityCritical: "critical",
+        'info': detection.SeverityInfo,
+        'low': detection.SeverityLow,
+        'medium': detection.SeverityMedium,
+        'high': detection.SeverityHigh,
+        'critical': detection.SeverityCritical,
     }.get(severity.lower(), detection.SeverityInfo)
