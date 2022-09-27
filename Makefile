@@ -13,3 +13,15 @@ lint:
 test:
 	python -m unittest discover 
 
+install: venv
+	pipenv lock -r > requirements.txt
+
+package-clean:
+	rm -rf dist
+	rm -f MANIFEST
+
+package: package-clean install test lint
+	pipenv run python3 setup.py sdist
+
+publish: install package
+	twine upload dist/*
