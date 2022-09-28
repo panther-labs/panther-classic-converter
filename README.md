@@ -1,6 +1,13 @@
 # panther-classic-converter
 Tool for converting classic Panther detections into the Config SDK format
 
+## Installation
+```
+pip install panther-classic-converter
+```
+
+## Usage
+
 ```
 usage: panther_classic_converter [-h] [-a | --athena | --no-athena] [-o OUTPUT] filename
 
