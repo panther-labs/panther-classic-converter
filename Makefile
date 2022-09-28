@@ -23,5 +23,5 @@ package-clean:
 package: package-clean install test lint
 	pipenv run python3 setup.py sdist
 
-publish: install package
+publish: package
 	twine upload dist/*
