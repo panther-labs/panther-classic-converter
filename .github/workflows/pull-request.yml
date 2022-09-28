@@ -1,0 +1,26 @@
+name: pr
+on:
+  pull_request:
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip3 install -r requirements.txt && pip3 install mypy && pip3 install bandit
+
+
+      - name: lint
+        run: make lint
+
+      - name: test
+        run: make test
