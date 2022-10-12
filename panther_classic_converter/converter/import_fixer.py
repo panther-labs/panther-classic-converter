@@ -6,7 +6,7 @@
 # falls under the Panther Commercial License to the extent it is permitted.
 
 import ast
-from typing import List, Optional
+from typing import List
 
 
 def fix_imports(tree: ast.AST) -> None:
@@ -24,16 +24,6 @@ class ImportFixer(ast.NodeTransformer):
         for n in self._import_nodes:
             node.body.insert(0, n)
         return node
-
-    # remove top level imports
-    def visit_Import(self, node: ast.Import) -> Optional[ast.AST]:
-        return None
-
-    # remove top level from imports besides panther_config
-    def visit_ImportFrom(self, node: ast.ImportFrom) -> Optional[ast.AST]:
-        if node.module == 'panther_config':
-            return node
-        return None
 
     # add the panther_config imports to the top level
     def visit_Module(self, node: ast.Module) -> ast.AST:

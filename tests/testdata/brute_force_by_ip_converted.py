@@ -3,19 +3,13 @@ from panther_config import detection, PantherEvent
 
 
 def _standard_bruteforcebyip_rule(event: PantherEvent) -> bool:
-    from panther_oss_helpers import add_parse_delay, geoinfo_from_ip
-    from panther import lookup_aws_account_name
     import panther_event_type_helpers as event_type
-    from json import loads
 
     return event.udm("event_type") == event_type.FAILED_LOGIN
 
 
 def _standard_bruteforcebyip_title(event: PantherEvent) -> str:
-    from panther_oss_helpers import add_parse_delay, geoinfo_from_ip
     from panther import lookup_aws_account_name
-    import panther_event_type_helpers as event_type
-    from json import loads
 
     log_type = event.get("p_log_type")
     title_str = f"{log_type}: User [{event.udm('actor_user')}] has exceeded the failed logins threshold"
@@ -26,8 +20,6 @@ def _standard_bruteforcebyip_title(event: PantherEvent) -> str:
 
 def _standard_bruteforcebyip_alert_context(event: PantherEvent) -> dict:
     from panther_oss_helpers import add_parse_delay, geoinfo_from_ip
-    from panther import lookup_aws_account_name
-    import panther_event_type_helpers as event_type
     from json import loads
 
     geoinfo = geoinfo_from_ip(event.udm("source_ip"))

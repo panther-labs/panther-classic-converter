@@ -7,8 +7,10 @@
 
 import ast
 import os
+
 import yaml
 import black
+import autoflake
 
 from .import_fixer import fix_imports
 from .detection_builder import append_detection
@@ -33,6 +35,13 @@ def convert_detection(yml_filename: str, is_athena: bool) -> str:
     append_detection(tree, y, name_changes, is_athena)
     unparsed = ast.unparse(tree)
     unparsed = prepend_nolint(unparsed)
+
+    # remove unused imports
+    unparsed = autoflake.fix_code(
+        unparsed,
+        remove_all_unused_imports=True,
+    )
+
     # make pretty
     return black.format_str(unparsed, mode=black.FileMode())
 
