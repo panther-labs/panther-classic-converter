@@ -1,5 +1,5 @@
 # nolint
-from panther_config import detection, PantherEvent
+from panther_config import detection
 
 detection.ScheduledQuery(
     name="Query.VPC.DNS.Tunneling",
