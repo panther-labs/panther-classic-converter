@@ -8,7 +8,7 @@
 import ast
 import os
 
-import yaml  # type: ignore
+import yaml
 import black
 import autoflake
 
