@@ -8,7 +8,7 @@
 import ast
 import os
 
-import yaml
+import yaml  # type: ignore
 import black
 import autoflake
 
@@ -33,7 +33,7 @@ def convert_detection(yml_filename: str, is_athena: bool) -> str:
     fix_type_hints(tree)
     name_changes = fix_names(tree, get_id(y))
     append_detection(tree, y, name_changes, is_athena)
-    tree = surround_in_use(tree)
+    tree = surround_in_use(tree)  # type: ignore
     unparsed = ast.unparse(tree)
     unparsed = prepend_nolint(unparsed)
 
@@ -71,5 +71,5 @@ def prepend_nolint(body: str) -> str:
 
 def surround_in_use(tree: ast.AST) -> ast.AST:
     new_tree = ast.parse('def use():\n\tpass')
-    new_tree.body[0].body = tree.body
+    new_tree.body[0].body = tree.body  # type: ignore
     return new_tree
