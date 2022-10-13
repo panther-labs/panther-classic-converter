@@ -6,6 +6,7 @@
 # falls under the Panther Commercial License to the extent it is permitted.
 
 import argparse
+import os
 
 from panther_classic_converter.converter.converter import convert_detection
 
@@ -31,6 +32,12 @@ def main() -> None:
 
 
 def default_output_filename(og_filename: str) -> str:
+    if os.sep in og_filename:
+        file_split = og_filename.split(os.sep)
+        return os.sep.join([
+            *file_split[:-1],
+            f'converted_{file_split[-1].removesuffix(".yml")}.py']
+        )
     return f'converted_{og_filename.removesuffix(".yml")}.py'
 
 

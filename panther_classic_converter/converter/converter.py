@@ -33,6 +33,7 @@ def convert_detection(yml_filename: str, is_athena: bool) -> str:
     fix_type_hints(tree)
     name_changes = fix_names(tree, get_id(y))
     append_detection(tree, y, name_changes, is_athena)
+    tree = surround_in_use(tree)
     unparsed = ast.unparse(tree)
     unparsed = prepend_nolint(unparsed)
 
@@ -66,3 +67,9 @@ def empty_tree() -> ast.Module:
 
 def prepend_nolint(body: str) -> str:
     return f'#nolint\n{body}'
+
+
+def surround_in_use(tree: ast.AST) -> ast.AST:
+    new_tree = ast.parse('def use():\n\tpass')
+    new_tree.body[0].body = tree.body
+    return new_tree
