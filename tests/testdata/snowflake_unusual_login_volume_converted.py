@@ -2,16 +2,11 @@
 def use():
     from panther_config import detection, PantherEvent
 
-
     def _snowflake_unusualloginvolume_rule(_: PantherEvent) -> bool:
         return True
 
-
     def _snowflake_unusualloginvolume_title(event: PantherEvent) -> str:
-        return (
-            f"{event.get('user_name')} has exceeded the normal amount of Snowflake logins"
-        )
-
+        return f"{event.get('user_name')} has exceeded the normal amount of Snowflake logins"
 
     detection.ScheduledRule(
         rule_id="Snowflake.UnusualLoginVolume",

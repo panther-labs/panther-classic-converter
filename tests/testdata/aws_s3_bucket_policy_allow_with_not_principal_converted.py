@@ -2,8 +2,9 @@
 def use():
     from panther_config import detection, PantherEvent
 
-
-    def _aws_s3_bucket_policyallowwithnotprincipal_policy(resource: PantherEvent) -> bool:
+    def _aws_s3_bucket_policyallowwithnotprincipal_policy(
+        resource: PantherEvent,
+    ) -> bool:
         from policyuniverse.policy import Policy
         import json
 
@@ -14,7 +15,6 @@ def use():
             if statement.effect == "Allow" and statement.uses_not_principal():
                 return False
         return True
-
 
     detection.Policy(
         policy_id="AWS.S3.Bucket.PolicyAllowWithNotPrincipal",

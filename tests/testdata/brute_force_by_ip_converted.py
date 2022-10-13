@@ -2,12 +2,10 @@
 def use():
     from panther_config import detection, PantherEvent
 
-
     def _standard_bruteforcebyip_rule(event: PantherEvent) -> bool:
         import panther_event_type_helpers as event_type
 
         return event.udm("event_type") == event_type.FAILED_LOGIN
-
 
     def _standard_bruteforcebyip_title(event: PantherEvent) -> str:
         from panther import lookup_aws_account_name
@@ -15,9 +13,10 @@ def use():
         log_type = event.get("p_log_type")
         title_str = f"{log_type}: User [{event.udm('actor_user')}] has exceeded the failed logins threshold"
         if log_type == "AWS.CloudTrail":
-            title_str += f" in [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+            title_str += (
+                f" in [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+            )
         return title_str
-
 
     def _standard_bruteforcebyip_alert_context(event: PantherEvent) -> dict:
         from panther_oss_helpers import add_parse_delay, geoinfo_from_ip
@@ -31,11 +30,12 @@ def use():
             "geolocation"
         ] = f"{geoinfo.get('city')}, {geoinfo.get('region')} in {geoinfo.get('country')}"
         context["ip"] = geoinfo.get("ip")
-        context["reverse_lookup"] = geoinfo.get("hostname", "No reverse lookup hostname")
+        context["reverse_lookup"] = geoinfo.get(
+            "hostname", "No reverse lookup hostname"
+        )
         context["ip_org"] = geoinfo.get("org", "No organization listed")
         context = add_parse_delay(event, context)
         return context
-
 
     detection.Rule(
         rule_id="Standard.BruteForceByIP",
