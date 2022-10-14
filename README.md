@@ -3,7 +3,7 @@ Tool for converting classic Panther detections into the Config SDK format.
 
 The converted rule serves as a good baseline and maintains existing functionality.
 
-It is recommended that the generated filter be replaced with a composable list of filters to better take advantage of the benefits of composable detections.
+It is recommended that the generated filter be replaced with a composable list of filters to take advantage of the benefits of composable detections.
 
 ## Installation
 ```
