@@ -36,6 +36,7 @@ panther_classic_converter brute_force_by_ip.yml -o converted_brute_force_by_ip.p
 
 ### Before
 [brute_force_by_ip.yml](https://github.com/panther-labs/panther-classic-converter/blob/main/tests/testdata/brute_force_by_ip.yml)
+
 [brute_force_by_ip.py](https://github.com/panther-labs/panther-classic-converter/blob/main/tests/testdata/brute_force_by_ip.py)
 
 ### After
