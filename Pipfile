@@ -8,7 +8,7 @@ autoflake = "*"
 black = "==22.8.0"
 PyYAML = "*"
 types-PyYAML = "*"
-panther_config = "*"
+panther_sdk = ">=0.0.19"
 
 [dev-packages]
 

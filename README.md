@@ -1,5 +1,5 @@
 # panther-classic-converter
-Tool for converting classic Panther detections into the Config SDK format.
+Tool for converting classic Panther detections into the Panther SDK format.
 
 The converted rule serves as a good baseline and maintains existing functionality.
 
@@ -15,7 +15,7 @@ pip install panther-classic-converter
 ```
 usage: panther_classic_converter [-h] [-a | --athena | --no-athena] [-o OUTPUT] filename
 
-converts legacy detections to config sdk detections
+converts legacy detections to panther sdk detections
 
 positional arguments:
   filename              YML filename to be converted

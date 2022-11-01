@@ -1,5 +1,5 @@
 # nolint
-from panther_config import detection, PantherEvent
+from panther_sdk import detection, PantherEvent
 
 
 def _aws_s3_bucket_policyallowwithnotprincipal_policy(resource: PantherEvent) -> bool:

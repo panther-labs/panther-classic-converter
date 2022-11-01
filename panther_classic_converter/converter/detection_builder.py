@@ -9,7 +9,7 @@ import ast
 import json
 from typing import Union, Any, Optional
 
-from panther_config import detection
+from panther_sdk import detection
 
 from .name_fixer import UpdatedFunctionNames
 
