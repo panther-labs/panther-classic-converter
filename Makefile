@@ -1,20 +1,21 @@
 packages = panther_classic_converter
 
-.PHONY: venv
-venv:
-	pipenv install --dev
-
 .PHONY: lint
 lint:
-	mypy $(packages) --disallow-untyped-defs --ignore-missing-imports --warn-unused-ignores
-	bandit -r $(packages)
+	pipenv run mypy $(packages) --disallow-untyped-defs --ignore-missing-imports --warn-unused-ignores
+	pipenv run bandit -r $(packages)
 
 .PHONY: test
 test:
 	python -m unittest discover 
 
-install: venv
-	pipenv lock -r > requirements.txt
+.PHONY: install
+install:
+	pipenv install --dev
+
+.PHONY: sync
+sync:
+	pipenv sync --dev
 
 package-clean:
 	rm -rf dist
