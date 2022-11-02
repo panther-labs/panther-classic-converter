@@ -50,12 +50,5 @@ def detection_import_from_node() -> ast.ImportFrom:
     return ast.ImportFrom(
         level=0,
         module="panther_sdk",
-        names=[
-            ast.alias(
-                name="detection"
-            ),
-            ast.alias(
-                name="PantherEvent"
-            )
-        ]
+        names=[ast.alias(name="detection"), ast.alias(name="PantherEvent")],
     )
