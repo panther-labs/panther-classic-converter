@@ -1,0 +1,61 @@
+Metadata-Version: 2.1
+Name: panther-classic-converter
+Version: 0.1.0
+Home-page: https://panther.com
+Author: Panther Labs Inc.
+Author-email: support@panther.io
+Keywords: security detection
+Classifier: Development Status :: 1 - Planning
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Security
+Classifier: Typing :: Typed
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
+# panther-classic-converter
+Tool for converting classic Panther detections into the Panther SDK format.
+
+The converted rule serves as a good baseline and maintains existing functionality.
+
+It is recommended that the generated filter be replaced with a composable list of filters to take advantage of the benefits of composable detections.
+
+## Installation
+```
+pip install panther-classic-converter
+```
+
+## Usage
+
+```
+usage: panther_classic_converter [-h] [-a | --athena | --no-athena] [-o OUTPUT] filename
+
+converts legacy detections to panther sdk detections
+
+positional arguments:
+  filename              YML filename to be converted
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -a, --athena, --no-athena
+                        Datalake used by panther deployment. Used for scheduled queries.
+  -o OUTPUT, --output OUTPUT
+                        YML filename to be converted
+```
+
+## Example
+
+```
+panther_classic_converter brute_force_by_ip.yml -o converted_brute_force_by_ip.py
+```
+
+### Before
+[brute_force_by_ip.yml](https://github.com/panther-labs/panther-classic-converter/blob/main/tests/testdata/brute_force_by_ip.yml)
+
+[brute_force_by_ip.py](https://github.com/panther-labs/panther-classic-converter/blob/main/tests/testdata/brute_force_by_ip.py)
+
+### After
+[converted_brute_force_by_ip.py](https://github.com/panther-labs/panther-classic-converter/blob/main/tests/testdata/brute_force_by_ip_converted.py)
+
