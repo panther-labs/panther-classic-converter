@@ -22,8 +22,8 @@ def convert_detection(yml_filename: str, is_athena: bool) -> str:
 
     with open(yml_filename, "r") as file:
         y = yaml.safe_load(file)
-    if 'Filename' in y:
-        py_path = os.path.join(os.path.dirname(yml_filename), y['Filename'])
+    if "Filename" in y:
+        py_path = os.path.join(os.path.dirname(yml_filename), y["Filename"])
         with open(py_path, "r") as file:
             tree = ast.parse(file.read())
     else:
@@ -47,22 +47,17 @@ def convert_detection(yml_filename: str, is_athena: bool) -> str:
 
 
 def get_id(yaml_config: dict) -> str:
-    analysis_type = yaml_config['AnalysisType']
-    if analysis_type == 'rule' or analysis_type == 'scheduled_rule':
-        return yaml_config['RuleID']
-    if analysis_type == 'policy':
-        return yaml_config['PolicyID']
-    return ''
+    analysis_type = yaml_config["AnalysisType"]
+    if analysis_type == "rule" or analysis_type == "scheduled_rule":
+        return yaml_config["RuleID"]
+    if analysis_type == "policy":
+        return yaml_config["PolicyID"]
+    return ""
 
 
 def empty_tree() -> ast.Module:
-    return ast.fix_missing_locations(
-        ast.Module(
-            body=[],
-            type_ignores=[]
-        )
-    )
+    return ast.fix_missing_locations(ast.Module(body=[], type_ignores=[]))
 
 
 def prepend_nolint(body: str) -> str:
-    return f'#nolint\n{body}'
+    return f"#nolint\n{body}"

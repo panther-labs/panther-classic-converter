@@ -37,10 +37,10 @@ class NameFixer(ast.NodeTransformer):
         return self._results
 
     def _prefix_name(self, og: str) -> str:
-        return f'_{self._prefix}_{og}'
+        return f"_{self._prefix}_{og}"
 
     def _id_to_prefix(self, id: str) -> str:
-        return re.sub('[^a-zA-Z0-9]', '_', id).lower()
+        return re.sub("[^a-zA-Z0-9]", "_", id).lower()
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> ast.AST:
         if node.name == "rule" or node.name == "policy":
@@ -88,4 +88,3 @@ class NameFixer(ast.NodeTransformer):
             node.name = new_name
             self._results.destinations_func_name = new_name
         return node
-
