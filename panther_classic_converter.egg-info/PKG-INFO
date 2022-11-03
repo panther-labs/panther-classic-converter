@@ -1,3 +1,20 @@
+Metadata-Version: 2.1
+Name: panther-classic-converter
+Version: 0.1.0
+Home-page: https://panther.com
+Author: Panther Labs Inc.
+Author-email: support@panther.io
+Keywords: security detection
+Classifier: Development Status :: 1 - Planning
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Security
+Classifier: Typing :: Typed
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
 # panther-classic-converter
 Tool for converting classic Panther detections into the Panther SDK format.
 

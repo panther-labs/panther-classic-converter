@@ -16,29 +16,29 @@ def fix_type_hints(tree: ast.AST) -> None:
 class TypeHintFixer(ast.NodeTransformer):
     def visit_FunctionDef(self, node: ast.FunctionDef) -> ast.AST:
         if node.name == "rule" or node.name == "policy":
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
-            node.returns = ast.Name(id='bool', ctx=ast.Load())
+            node.args.args[0].annotation = ast.Name(id="PantherEvent", ctx=ast.Load())
+            node.returns = ast.Name(id="bool", ctx=ast.Load())
 
         if (
-                node.name == "title"
-                or node.name == "dedup"
-                or node.name == "severity"
-                or node.name == "description"
-                or node.name == "reference"
-                or node.name == "runbook"
+            node.name == "title"
+            or node.name == "dedup"
+            or node.name == "severity"
+            or node.name == "description"
+            or node.name == "reference"
+            or node.name == "runbook"
         ):
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
-            node.returns = ast.Name(id='str', ctx=ast.Load())
+            node.args.args[0].annotation = ast.Name(id="PantherEvent", ctx=ast.Load())
+            node.returns = ast.Name(id="str", ctx=ast.Load())
 
         if node.name == "alert_context":
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
-            node.returns = ast.Name(id='dict', ctx=ast.Load())
+            node.args.args[0].annotation = ast.Name(id="PantherEvent", ctx=ast.Load())
+            node.returns = ast.Name(id="dict", ctx=ast.Load())
 
         if node.name == "destinations":
-            node.args.args[0].annotation = ast.Name(id='PantherEvent', ctx=ast.Load())
+            node.args.args[0].annotation = ast.Name(id="PantherEvent", ctx=ast.Load())
             node.returns = ast.Subscript(
-                value=ast.Name(id='list', ctx=ast.Load()),
-                slice=ast.Name(id='str', ctx=ast.Load()),
-                ctx=ast.Load()
+                value=ast.Name(id="list", ctx=ast.Load()),
+                slice=ast.Name(id="str", ctx=ast.Load()),
+                ctx=ast.Load(),
             )
         return node

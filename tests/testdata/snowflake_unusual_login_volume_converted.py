@@ -1,5 +1,5 @@
 # nolint
-from panther_config import detection, PantherEvent
+from panther_sdk import detection, PantherEvent
 
 
 def _snowflake_unusualloginvolume_rule(_: PantherEvent) -> bool:

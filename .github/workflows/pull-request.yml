@@ -1,10 +1,10 @@
 name: pr
+
 on:
   pull_request:
 
 jobs:
-
-  test:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -12,15 +12,58 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: 3.9
+
+      - name: Install pipenv
+        run: pip install pipenv
 
       - name: Install dependencies
-        run: |
-          pip3 install -r requirements.txt && pip3 install mypy && pip3 install bandit
+        run: make ci_install
 
+      - name: Run formatter
+        run: make ci_fmt
 
-      - name: lint
-        run: make lint
+      - name: Commit format changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: automatic formatting
 
-      - name: test
-        run: make test
+  test:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies
+        run: make ci_install
+
+      - name: Run tests
+        run: make ci_test
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies
+        run: make ci_install
+
+      - name: Run linter
+        run: make ci_lint

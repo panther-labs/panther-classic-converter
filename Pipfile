@@ -5,12 +5,14 @@ name = "pypi"
 
 [packages]
 autoflake = "*"
-black = "==22.8.0"
 PyYAML = "*"
 types-PyYAML = "*"
-panther_config = "*"
+panther_sdk = ">=0.0.19"
 
 [dev-packages]
+twine = ">=4.0.1"
+black = "==22.8.0"
+mypy = ">=0.0.0"
 
 [requires]
 python_version = "3.9"

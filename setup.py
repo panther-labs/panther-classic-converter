@@ -18,7 +18,7 @@ setup(
     include_package_data=True,
     keywords='security detection',
     install_requires=[
-        'panther_config',
+        'panther_sdk>=0.19.0',
         'black',
         'PyYAML',
     ],

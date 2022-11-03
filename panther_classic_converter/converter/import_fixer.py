@@ -25,7 +25,7 @@ class ImportFixer(ast.NodeTransformer):
             node.body.insert(0, n)
         return node
 
-    # add the panther_config imports to the top level
+    # add the panther_sdk imports to the top level
     def visit_Module(self, node: ast.Module) -> ast.AST:
         node.body.insert(0, detection_import_from_node())
         self.generic_visit(node)
@@ -49,13 +49,6 @@ class ImportVisitor(ast.NodeVisitor):
 def detection_import_from_node() -> ast.ImportFrom:
     return ast.ImportFrom(
         level=0,
-        module="panther_config",
-        names=[
-            ast.alias(
-                name="detection"
-            ),
-            ast.alias(
-                name="PantherEvent"
-            )
-        ]
+        module="panther_sdk",
+        names=[ast.alias(name="detection"), ast.alias(name="PantherEvent")],
     )
